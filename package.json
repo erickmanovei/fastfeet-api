@@ -1,0 +1,8 @@
+{
+  "name": "fastfeet-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/erickmanovei/fastfeet-api.git",
+  "author": "Érick Nilson Souza Sodré Filho <erickmanovei@hotmail.com>",
+  "license": "MIT"
+}
