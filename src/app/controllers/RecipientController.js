@@ -21,7 +21,7 @@ class RecipientController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       address_number: Yup.string().required(),
-      cep: Yup.string()
+      zip: Yup.string()
         .required()
         .min(9)
         .max(9),
@@ -34,9 +34,9 @@ class RecipientController {
     try {
       let newRecipient = req.body;
       if (!req.body.address) {
-        const cepWithoutMask = req.body.cep.replace('-', '');
+        const zipWithoutMask = req.body.zip.replace('-', '');
         const data = await axios.get(
-          `https://viacep.com.br/ws/${cepWithoutMask}/json/`
+          `https://viacep.com.br/ws/${zipWithoutMask}/json/`
         );
         newRecipient = {
           name: req.body.name,
@@ -46,7 +46,7 @@ class RecipientController {
           district: data.data.bairro,
           city: data.data.localidade,
           state: data.data.uf,
-          cep: req.body.cep,
+          zip: req.body.zip,
         };
       }
 
@@ -59,7 +59,7 @@ class RecipientController {
         district,
         city,
         state,
-        cep,
+        zip,
       } = await Recipient.create(newRecipient);
 
       return res.json({
@@ -71,7 +71,7 @@ class RecipientController {
         district,
         city,
         state,
-        cep,
+        zip,
       });
     } catch (err) {
       return res.status(400).json({ error: err.message });
@@ -82,7 +82,7 @@ class RecipientController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       address_number: Yup.string().required(),
-      cep: Yup.string()
+      zip: Yup.string()
         .required()
         .min(9)
         .max(9),
@@ -108,7 +108,7 @@ class RecipientController {
         district,
         city,
         state,
-        cep,
+        zip,
       } = await recipient.update(req.body);
 
       return res.json({
@@ -120,7 +120,7 @@ class RecipientController {
         district,
         city,
         state,
-        cep,
+        zip,
       });
     } catch (err) {
       return res.status(400).json({ error: err.message });

@@ -3,14 +3,11 @@ import User from '../models/User';
 
 class UserController {
   async index(req, res) {
-    const users = await User.findAll({ raw: true });
-    const returnedUsers = users.map(u => {
-      delete u.password_hash;
-      delete u.createdAt;
-      delete u.updatedAt;
-      return u;
+    const users = await User.findAll({
+      attributes: ['id', 'name', 'email'],
     });
-    return res.json(returnedUsers);
+
+    return res.json(users);
   }
 
   async show(req, res) {
