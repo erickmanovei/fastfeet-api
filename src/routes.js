@@ -11,6 +11,7 @@ import DeliveryController from './app/controllers/DeliveryController';
 import DeliverymanDeliveryController from './app/controllers/DeliverymanDeliveryController';
 import TakeDeliveryController from './app/controllers/TakeDeliveryController';
 import DeliverDeliveryController from './app/controllers/DeliverDeliveryController';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -24,6 +25,10 @@ routes.put(
   upload.single('file'),
   DeliverDeliveryController.update
 );
+routes.get('/deliveryproblems', DeliveryProblemController.index);
+routes.get('/delivery/:id/problems', DeliveryProblemController.show);
+routes.post('/delivery/:id/problems', DeliveryProblemController.store);
+routes.delete('/problem/:id/cancel-delivery', DeliveryProblemController.delete);
 
 routes.use(authMiddleware); // middleware de autenticação. Toda rota a partir daqui requer autenticação
 

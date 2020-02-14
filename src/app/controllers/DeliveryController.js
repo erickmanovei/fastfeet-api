@@ -5,6 +5,7 @@ import Recipient from '../models/Recipient';
 import Deliveryman from '../models/Deliveryman';
 import DeliveryStoreMail from '../jobs/DeliveryStoreMail';
 import Queue from '../../lib/Queue';
+import DeliveryProblem from '../models/DeliveryProblem';
 
 class DeliveryController {
   async index(req, res) {
@@ -34,6 +35,11 @@ class DeliveryController {
           model: File,
           as: 'signature',
           attributes: ['name', 'path', 'url'],
+        },
+        {
+          model: DeliveryProblem,
+          as: 'problems',
+          attributes: ['description'],
         },
       ],
     });
@@ -131,10 +137,6 @@ class DeliveryController {
 
     try {
       const deliveryUpdated = await delivery.update(req.body);
-
-      // send email to old deliveryman
-
-      // send email to new deliveriman
 
       return res.json(deliveryUpdated);
     } catch (err) {
