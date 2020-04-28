@@ -1,10 +1,21 @@
+import { Op } from 'sequelize';
 import * as Yup from 'yup';
 import axios from 'axios';
 import Recipient from '../models/Recipient';
 
 class RecipientController {
   async index(req, res) {
-    const recipients = await Recipient.findAll({ raw: true });
+    let where = null;
+    const { q } = req.query;
+    if (q) {
+      where = {
+        name: { [Op.iLike]: `%${q}%` },
+      };
+    }
+    const recipients = await Recipient.findAll({
+      where,
+      raw: true,
+    });
     return res.json(recipients);
   }
 

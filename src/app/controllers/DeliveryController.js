@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import * as Yup from 'yup';
 import Delivery from '../models/Delivery';
 import File from '../models/File';
@@ -9,7 +10,16 @@ import DeliveryProblem from '../models/DeliveryProblem';
 
 class DeliveryController {
   async index(req, res) {
+    let where = null;
+    const { q } = req.query;
+    if (q) {
+      where = {
+        product: { [Op.iLike]: `%${q}%` },
+      };
+    }
+
     const delivery = await Delivery.findAll({
+      where,
       attributes: [
         'id',
         'recipient_id',
