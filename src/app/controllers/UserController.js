@@ -3,7 +3,16 @@ import User from '../models/User';
 
 class UserController {
   async index(req, res) {
+    let offset = null;
+    let limit = null;
+    const { page, perPage } = req.query;
+    if (page && perPage) {
+      offset = (page - 1) * perPage;
+      limit = perPage;
+    }
     const users = await User.findAll({
+      offset,
+      limit,
       attributes: ['id', 'name', 'email'],
     });
 
@@ -73,7 +82,6 @@ class UserController {
     const user = await User.findByPk(req.userId);
 
     if (email && email !== user.email) {
-      console.log('entrou');
       const userExists = await User.findOne({ where: { email } });
 
       if (userExists) {

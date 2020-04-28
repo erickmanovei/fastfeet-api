@@ -12,7 +12,16 @@ class RecipientController {
         name: { [Op.iLike]: `%${q}%` },
       };
     }
+    let offset = null;
+    let limit = null;
+    const { page, perPage } = req.query;
+    if (page && perPage) {
+      offset = (page - 1) * perPage;
+      limit = perPage;
+    }
     const recipients = await Recipient.findAll({
+      offset,
+      limit,
       where,
       raw: true,
     });

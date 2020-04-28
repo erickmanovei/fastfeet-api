@@ -12,7 +12,18 @@ class DeliverymanController {
         name: { [Op.iLike]: `%${q}%` },
       };
     }
+
+    let offset = null;
+    let limit = null;
+    const { page, perPage } = req.query;
+    if (page && perPage) {
+      offset = (page - 1) * perPage;
+      limit = perPage;
+    }
+
     const deliveryman = await Deliveryman.findAll({
+      offset,
+      limit,
       where,
       attributes: ['id', 'name', 'email', 'avatar_id'],
       include: [

@@ -9,7 +9,17 @@ import Queue from '../../lib/Queue';
 
 class DeliveryProblemController {
   async index(req, res) {
+    let offset = null;
+    let limit = null;
+    const { page, perPage } = req.query;
+    if (page && perPage) {
+      offset = (page - 1) * perPage;
+      limit = perPage;
+    }
+
     const delivery = await Delivery.findAll({
+      offset,
+      limit,
       where: {
         canceled_at: null,
       },

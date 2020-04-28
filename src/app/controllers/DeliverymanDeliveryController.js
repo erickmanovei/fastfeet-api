@@ -24,7 +24,17 @@ class DeliverymanDeliveryController {
       };
     }
 
+    let offset = null;
+    let limit = null;
+    const { page, perPage } = req.query;
+    if (page && perPage) {
+      offset = (page - 1) * perPage;
+      limit = perPage;
+    }
+
     const delivery = await Delivery.findAll({
+      offset,
+      limit,
       where,
       attributes: [
         'id',

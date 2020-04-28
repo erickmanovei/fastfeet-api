@@ -11,15 +11,23 @@ import DeliveryProblem from '../models/DeliveryProblem';
 class DeliveryController {
   async index(req, res) {
     let where = null;
-    const { q } = req.query;
+    let offset = null;
+    let limit = null;
+    const { q, page, perPage } = req.query;
     if (q) {
       where = {
         product: { [Op.iLike]: `%${q}%` },
       };
     }
+    if (page && perPage) {
+      offset = (page - 1) * perPage;
+      limit = perPage;
+    }
 
     const delivery = await Delivery.findAll({
       where,
+      offset,
+      limit,
       attributes: [
         'id',
         'recipient_id',
