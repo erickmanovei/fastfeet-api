@@ -24,7 +24,7 @@ class DeliveryController {
       limit = perPage;
     }
 
-    const delivery = await Delivery.findAll({
+    const deliveries = await Delivery.findAndCountAll({
       where,
       offset,
       limit,
@@ -42,7 +42,7 @@ class DeliveryController {
         {
           model: Recipient,
           as: 'recipient',
-          attributes: ['name'],
+          attributes: ['name', 'city', 'state'],
         },
         {
           model: Deliveryman,
@@ -60,8 +60,9 @@ class DeliveryController {
           attributes: ['description'],
         },
       ],
+      order: ['id'],
     });
-    return res.json(delivery);
+    return res.json(deliveries);
   }
 
   async show(req, res) {
@@ -71,7 +72,15 @@ class DeliveryController {
         {
           model: Recipient,
           as: 'recipient',
-          attributes: ['name'],
+          attributes: [
+            'name',
+            'address',
+            'address_number',
+            'address_complement',
+            'city',
+            'state',
+            'zip',
+          ],
         },
         {
           model: Deliveryman,
@@ -169,12 +178,10 @@ class DeliveryController {
       return res.status(400).json({ error: 'Delivery does not exists.' });
     }
     try {
-      delivery.destroy({
-        where: { id },
-      });
-      return res.json();
+      delivery.destroy();
+      return res.json(delivery);
     } catch (err) {
-      return res.json({ error: err.message });
+      return res.status(500).json({ error: err.message });
     }
   }
 }
