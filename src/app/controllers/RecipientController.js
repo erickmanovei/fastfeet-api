@@ -19,7 +19,7 @@ class RecipientController {
       offset = (page - 1) * perPage;
       limit = perPage;
     }
-    const recipients = await Recipient.findAll({
+    const recipients = await Recipient.findAndCountAll({
       offset,
       limit,
       where,

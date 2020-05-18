@@ -17,47 +17,21 @@ class DeliveryProblemController {
       limit = perPage;
     }
 
-    const delivery = await Delivery.findAll({
+    const deliveryProblems = await DeliveryProblem.findAndCountAll({
       offset,
       limit,
-      where: {
-        canceled_at: null,
-      },
-      attributes: [
-        'id',
-        'recipient_id',
-        'deliveryman_id',
-        'signature_id',
-        'product',
-        'canceled_at',
-        'start_date',
-        'end_date',
-      ],
       include: [
         {
-          model: Recipient,
-          as: 'recipient',
-          attributes: ['name'],
-        },
-        {
-          model: Deliveryman,
-          as: 'deliveryman',
-          attributes: ['name'],
-        },
-        {
-          model: File,
-          as: 'signature',
-          attributes: ['name', 'path', 'url'],
-        },
-        {
-          model: DeliveryProblem,
-          as: 'problems',
-          attributes: ['description'],
-          required: true,
+          model: Delivery,
+          as: 'delivery',
+          where: {
+            canceled_at: null,
+            end_date: null,
+          },
         },
       ],
     });
-    return res.json(delivery);
+    return res.json(deliveryProblems);
   }
 
   async show(req, res) {
