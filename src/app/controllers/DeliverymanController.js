@@ -21,7 +21,7 @@ class DeliverymanController {
       limit = perPage;
     }
 
-    const deliveryman = await Deliveryman.findAll({
+    const deliveryman = await Deliveryman.findAndCountAll({
       offset,
       limit,
       where,
@@ -39,7 +39,15 @@ class DeliverymanController {
 
   async show(req, res) {
     const { id } = req.params;
-    const deliveryman = await Deliveryman.findByPk(id);
+    const deliveryman = await Deliveryman.findByPk(id, {
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
+    });
     if (!deliveryman) {
       return res.status(400).json({ error: 'Deliveryman does not exists.' });
     }
