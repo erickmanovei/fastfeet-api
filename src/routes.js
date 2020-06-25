@@ -30,6 +30,8 @@ routes.get('/delivery/:id/problems', DeliveryProblemController.show);
 routes.post('/delivery/:id/problems', DeliveryProblemController.store);
 routes.delete('/problem/:id/cancel-delivery', DeliveryProblemController.delete);
 
+routes.get('/deliverymans/:id', DeliverymanController.show);
+
 routes.use(authMiddleware); // middleware de autenticação. Toda rota a partir daqui requer autenticação
 
 routes.get('/users', UserController.index);
@@ -49,7 +51,6 @@ routes.post('/files', upload.single('file'), FileController.store);
 routes.get('/deliverymans', DeliverymanController.index);
 routes.post('/deliverymans', DeliverymanController.store);
 routes.put('/deliverymans/:id', DeliverymanController.update);
-routes.get('/deliverymans/:id', DeliverymanController.show);
 routes.delete('/deliverymans/:id', DeliverymanController.delete);
 
 routes.get('/deliveries', DeliveryController.index);

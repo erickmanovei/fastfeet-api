@@ -2,6 +2,8 @@ import { Op } from 'sequelize';
 import Delivery from '../models/Delivery';
 import Recipient from '../models/Recipient';
 import File from '../models/File';
+import Deliveryman from '../models/Deliveryman';
+import DeliveryProblem from '../models/DeliveryProblem';
 
 class DeliverymanDeliveryController {
   async index(req, res) {
@@ -50,12 +52,22 @@ class DeliverymanDeliveryController {
         {
           model: Recipient,
           as: 'recipient',
+          attributes: ['name', 'city', 'state'],
+        },
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
           attributes: ['name'],
         },
         {
           model: File,
           as: 'signature',
           attributes: ['name', 'path', 'url'],
+        },
+        {
+          model: DeliveryProblem,
+          as: 'problems',
+          attributes: ['description'],
         },
       ],
     });
