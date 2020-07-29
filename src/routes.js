@@ -32,6 +32,8 @@ routes.delete('/problem/:id/cancel-delivery', DeliveryProblemController.delete);
 
 routes.get('/deliverymans/:id', DeliverymanController.show);
 
+routes.get('/deliveries/:id', DeliveryController.show);
+
 routes.use(authMiddleware); // middleware de autenticação. Toda rota a partir daqui requer autenticação
 
 routes.get('/users', UserController.index);
@@ -56,7 +58,6 @@ routes.delete('/deliverymans/:id', DeliverymanController.delete);
 routes.get('/deliveries', DeliveryController.index);
 routes.post('/deliveries', DeliveryController.store);
 routes.put('/deliveries/:id', DeliveryController.update);
-routes.get('/deliveries/:id', DeliveryController.show);
 routes.delete('/deliveries/:id', DeliveryController.delete);
 
 export default routes;

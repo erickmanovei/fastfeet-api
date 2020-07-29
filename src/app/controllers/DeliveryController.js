@@ -42,7 +42,16 @@ class DeliveryController {
         {
           model: Recipient,
           as: 'recipient',
-          attributes: ['name', 'city', 'state'],
+          attributes: [
+            'name',
+            'address',
+            'address_number',
+            'address_complement',
+            'district',
+            'city',
+            'state',
+            'zip',
+          ],
         },
         {
           model: Deliveryman,
