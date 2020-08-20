@@ -38,6 +38,7 @@ class DeliveryController {
         'start_date',
         'end_date',
       ],
+      distinct: true,
       include: [
         {
           model: Recipient,

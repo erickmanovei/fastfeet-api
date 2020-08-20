@@ -5,6 +5,11 @@ import File from '../models/File';
 class DeliverDeliveryController {
   async update(req, res) {
     const { id } = req.params;
+    if (!req.file) {
+      return res.status(400).json({
+        error: 'Necessário enviar a foto da assinatura.',
+      });
+    }
 
     const delivery = await Delivery.findOne({
       where: {
